@@ -1,7 +1,7 @@
 execName = ep4
 execOptions =  -g -o $(execName) -lm -lc
 objOptions = -g -pedantic -Wall -lm -lc -c
-objects = main.o ARNE.o Item.o
+objects = main.o Hash1.o Item.o
 
 .PHONY:default
 default: $(objects)
@@ -10,8 +10,8 @@ default: $(objects)
 main.o: main.c
 	gcc -g -pedantic -Wall -lm -lc -c main.c
 
-ARNE.o: ARNE.c Item.c
-	gcc -g -pedantic -Wall -lm -lc -c ARNE.c
+Hash1.o: Hash1.c Item.c
+	gcc -g -pedantic -Wall -lm -lc -c Hash1.c
 
 Item.o: Item.c
 	gcc -g -pedantic -Wall -lm -lc -c Item.c

@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "ARNE.h"
+#include "Hash1.h"
 
 
 
@@ -86,8 +86,8 @@ int main (int argc, char *argv[]) {
     initItem();             /* Inicializa as informações para Item e para as árvores, */
     STinit();               /* para podermos começar a criar instâncias deles. */
     
-    words = initTree();     /* Inicialização das árvores em si */
-    lemmas = initTree();
+    words = initTable();     /* Inicialização das árvores em si */
+    lemmas = initTable();
     
     e = a = v = V = t = d = l = L = s = NO; /* Seta todas as flags com NO,
                                              para evitar erros de inicialização */
