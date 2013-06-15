@@ -56,8 +56,8 @@ int main (int argc, char *argv[]) {
     
     BOOL C = NO;            /* Parâmetro opcional '-C' */
     
-    link words = NULL;      /* Árvore para guardar as palavras (words = T1) */
-    link lemmas = NULL;     /* e os lemas (lemmas = T2) */
+    link *words = NULL;      /* Vetor para guardar as palavras (words = T1) */
+    link *lemmas = NULL;     /* e os lemas (lemmas = T2) */
     
     fpos_t *sentenceLocation = malloc(sizeof(fpos_t));  /* Variáveis usadas no processamento do arquivo */
     fpos_t *aux = malloc(sizeof(fpos_t));
@@ -83,10 +83,10 @@ int main (int argc, char *argv[]) {
     numDifWords = 0;
     numDifLemmas = 0;
     
-    initItem();             /* Inicializa as informações para Item e para as árvores, */
+    initItem();             /* Inicializa as informações para Item e para os vetores, */
     STinit();               /* para podermos começar a criar instâncias deles. */
     
-    words = initTable();     /* Inicialização das árvores em si */
+    words = initTable();     /* Inicialização dos vetores em si */
     lemmas = initTable();
     
     e = a = v = V = t = d = l = L = s = NO; /* Seta todas as flags com NO,
@@ -162,7 +162,7 @@ int main (int argc, char *argv[]) {
         
         
         
-        /* Analisa cada anotação, e insere as palavras e os lemas na árvore adequada. */
+        /* Analisa cada anotação, e insere as palavras e os lemas na estrutura adequada. */
         /* Sabemos, a partir da leitura do cabeçalho, exatamente quantos tokens */
         /* existem nessa anotação. */
         
@@ -213,13 +213,13 @@ int main (int argc, char *argv[]) {
             if ((*k >= 'a' && *k <= 'z') || (*k >= 'A' && *k <= 'Z'))
                 numWords ++;
             
-            words = STinsert(words, newWord);           /* Tentativa de inserir o item word na árvore T1 */
+            STinsert(words, newWord);           /* Tentativa de inserir o item word na tabela T1 */
             
             conflict = *(getConflict());                /* Se a tentativa falhou é porque já existia um item igual;
                                                          getConflict() vai retornar um ponteiro para esse item */
             
             if (conflict == NULL) {                         /* A palavra ainda não existia, logo, */
-                lemmas = STinsert(lemmas, newLemma);        /* o lema também não existia. Tentamos inseri-lo. */
+                STinsert(lemmas, newLemma);        /* o lema também não existia. Tentamos inseri-lo. */
                 conflict = *(getConflict());
                 
                 if (!(conflict == NULL)) {                  /* Se a palavra não existia mas o lema sim, basta adicioná-la ao lema */

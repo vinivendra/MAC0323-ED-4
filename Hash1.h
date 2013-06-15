@@ -19,12 +19,12 @@ struct STnode {
 
 Item **getConflict();
 
-link initTable();
+link *initTable();
 void STinit();
 Item **getConflict();
 int STcount(link head[]);
 Item *STsearch(Key v, link head[]);
-link STinsert(link head[], Item *item);
+void STinsert(link head[], Item *item);
 Item STselect(link head[], int r);
 void STsort(link head[], void(*visit)(Item));
 void STshow_histogram(link head[]);

@@ -54,17 +54,20 @@ int hash(char *v, int M)
 
 void STinit(int max)
 {
+    
+#warning achar um valor bom para o M
+    
     N = 0;
-    M = 97;
+    M = 1021;
     z = NEW(getNULLitem(), NULL);
     conflict = NULL;
 }
 
-link initTable() {
-    link head;
+link *initTable() {
+    link *head;
     int i;
-    head = malloc(M*sizeof(link));
-    for (i = 0; i < M; i++) head[i] = *z;
+    head = malloc(M*sizeof(link *));
+    for (i = 0; i < M; i++) head[i] = z;
     return head;
 }
 
@@ -79,16 +82,21 @@ Item *STsearch(Key v, link *head) {
     return searchR(head[hash(v, M)], v);
 }
 
-link STinsert(link head[], Item *item) {
+void STinsert(link head[], Item *item) {
     int i = hash(key(item), M);
     head[i] = NEW(item, head[i]);
     N++;
-    return head[0];
 }
 
 void STsort(link head[], void(*visit)(Item)) {
-    printf("STsort ainda não foi implementado!!");
-#warning implement STSort.
+    int i = 0;
+    link j;
+    
+    for (i = 0; i < M; i++) {
+        for (j = head[i]; j != z; j = j->next) {
+            visit(*(j->item));
+        }
+    }
 }
 
 
