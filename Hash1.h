@@ -24,7 +24,7 @@ void STinit();
 Item **getConflict();
 int STcount(link head[]);
 Item *STsearch(Key v, link head[]);
-void STinsert(link head[], Item *item);
+int STinsert(link head[], Item *item);
 Item STselect(link head[], int r);
 void STsort(link head[], void(*visit)(Item));
 void STshow_histogram(link head[]);

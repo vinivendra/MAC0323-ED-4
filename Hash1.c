@@ -82,10 +82,25 @@ Item *STsearch(Key v, link *head) {
     return searchR(head[hash(v, M)], v);
 }
 
-void STinsert(link head[], Item *item) {
+int STinsert(link head[], Item *item) {
     int i = hash(key(item), M);
-    head[i] = NEW(item, head[i]);
+    link l;
+    
+    if (head[i]->item == getNULLitem()) {   /* Se ainda não existe nenhum item nesse espaço do vetor, */
+        head[i] = NEW(item, head[i]);       /* É só adicionar direto. */
+        N++;
+        return 1;
+    }
+    
+    for (l = head[i]; l != z; l = l->next)  /* Se já existe algum, percorremos a lista para ver se */
+        if (eq(key(l->item), key(item))) {  /* o item já existia */
+            conflict = l->item;
+            return 0;
+        }
+    
+    head[i] = NEW(item, head[i]);           /* Se não existia ainda, colocamos na lista */
     N++;
+    return 1;
 }
 
 void STsort(link head[], void(*visit)(Item)) {
