@@ -452,20 +452,25 @@ int main (int argc, char *argv[]) {
 #pragma mark t, d, l, L
         if (t == YES) {         /* Essas quatro opções são apenas funções diferentes passadas para o STsort,
                                  que visita cada Item e chama a nossa função para cada um. */
-            STsort(words, printItem);   /* Imprime o Item, seja lá qual for */
+            link *sort = STsort(words);
+            STdump(sort, printItem);   /* Imprime o Item, seja lá qual for */
             printf("\n");
+#warning lembrar de dar free nos vetores temporários criados pelo STsort
         }
         
         if (d == YES) {
-            STsort(words, printWord);   /* Imprime o Item, mas apenas se for uma palavra */
+            link *sort = STsort(words);
+            STdump(sort, printWord);   /* Imprime o Item, mas apenas se for uma palavra */
             printf("\n");
         }
         if (l == YES) {
-            STsort(lemmas, printWord);
+            link *sort = STsort(lemmas);
+            STdump(sort, printWord);
             printf("\n");
         }
         if (L == YES) {
-            STsort(lemmas, printWordsFromLemma);    /* Imprime cada Item de cada lema, mas apenas se forem palavras */
+            link *sort = STsort(lemmas);
+            STdump(sort, printWordsFromLemma);    /* Imprime cada Item de cada lema, mas apenas se forem palavras */
             printf("\n");
         }
         
@@ -474,9 +479,9 @@ int main (int argc, char *argv[]) {
 #pragma mark s
         if (s == YES) {         /* Parte da implementação do 's' está "espalhada" pelo código; o resto está aqui */
             if (numDifTokens == 0 && numDifWords == 0)      /* Se nunca rodamos o comando 's' */
-                STsort(words, statisticCountWords);         /* Contamos as palavras e os tokens da árvore */
+                STdump(words, statisticCountWords);         /* Contamos as palavras e os tokens da árvore */
             if (numDifLemmas == 0)                      /* Se já rodamos o 's' uma vez, não é necessário contar de novo. */
-                STsort(lemmas, statisticCountLemmas);   /* Contamos os lemas. */
+                STdump(lemmas, statisticCountLemmas);   /* Contamos os lemas. */
             
             printf("Número de sentenças no texto = %d;\nNúmero total de tokens no texto: %d;\nNúmero total de palavras no texto: %d;\nNúmero total de tokens distintos: %d;\nNúmero total de palavras distintas: %d;\nNúmero total de lemas distintos: %d.\n\n", numSentences, numTokens, numWords, numDifTokens, numDifWords, numDifLemmas);
             /* Os outros dados foram contados ao longo da execução do programa. */

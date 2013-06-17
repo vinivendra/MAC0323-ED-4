@@ -11,19 +11,14 @@ static int N, M;
 static Item *conflict;
 
 /*
-link initTable();
-void STinit();
-Item **getConflict();
-int STcount(link head[]);
-Item *STsearch(Key v, link head[]);
-link STinsert(link head, Item *item);
-Item STselect(link head, int r);
-void STsort(link head, void(*visit)(Item));
-void STshow_histogram();
-void STdump(void (*visit)(Item *));
- */
+ Protótipos
+*/
 
+int compare(const void *link1, const void *link2);
 
+/*
+ Implementações
+*/
 
 Item **getConflict() {      /* Getter do conflito */
     return &conflict;
@@ -89,6 +84,7 @@ int STinsert(link head[], Item *item) {
     if (head[i]->item == getNULLitem()) {   /* Se ainda não existe nenhum item nesse espaço do vetor, */
         head[i] = NEW(item, head[i]);       /* É só adicionar direto. */
         N++;
+        conflict = NULL;
         return 1;
     }
     
@@ -100,30 +96,54 @@ int STinsert(link head[], Item *item) {
     
     head[i] = NEW(item, head[i]);           /* Se não existia ainda, colocamos na lista */
     N++;
+    conflict = NULL;
     return 1;
 }
 
-void STsort(link head[], void(*visit)(Item)) {
-    int i = 0;
-    link j;
+link *STsort(link head[]) {
+    int i, j = 0;
+    link k;
+    link *copy;
+    copy = malloc(N*sizeof(link *));
     
     for (i = 0; i < M; i++) {
-        for (j = head[i]; j != z; j = j->next) {
-            visit(*(j->item));
+        for (k = head[i]; k != z; k = k->next) {
+            copy[j] = k;
+            j++;
         }
     }
+    for (; j < N; j++) {
+        copy[j] = z;
+    }
+    
+#warning TIRAR ESSE SEGUNDO FOR DAQUI
+
+    qsort(copy, N, sizeof(link), &compare);
+    
+    
+    return copy;
+}
+
+int compare(const void *link1, const void *link2) {
+    if (*(link *)link1 == z) {
+        return 1;
+    }
+    if (*(link *)link2 == z) {
+        return -1;
+    }
+    if (less(key((*(link *)link1)->item), key((*(link *)link2)->item))) {
+        return -1;
+    }
+    return 1;
 }
 
 
-void STdump(link head[], void (*visit)(Item *))
-{
+void STdump(link head[], void (*visit)(Item)) {
     int i;
-    link t;
     
-    for (i=0; i<M; i++) {
+    for (i=0; i<N; i++) {
         if (head[i] != z)
-            for (t = head[i]; t != z; t = t->next)
-                visit(t->item);
+            visit(*(head[i]->item));
     }
 }
 

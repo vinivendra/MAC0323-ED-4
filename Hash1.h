@@ -26,8 +26,8 @@ int STcount(link head[]);
 Item *STsearch(Key v, link head[]);
 int STinsert(link head[], Item *item);
 Item STselect(link head[], int r);
-void STsort(link head[], void(*visit)(Item));
+link *STsort(link head[]);
 void STshow_histogram(link head[]);
-void STdump(link head[], void (*visit)(Item *));
+void STdump(link head[], void (*visit)(Item));
 
 #endif
